@@ -13,7 +13,7 @@ struct Response: Codable {
 struct ComputeApp {
     static func main() async throws {
         try await onIncomingRequest { req, res in
-            let logger = try Logger().init(name: "quickstartLogger")
+            let logger = try Logger(name: "quickstartLogger")
             switch (req.method, req.url.path) {
             case (.post, "/quickstart"):
                 let content = Response(foo: "bar", hello: "world", ping: "pong")
