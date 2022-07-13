@@ -1,5 +1,7 @@
 # Fastly Compute@Edge Quickstart for Swift
 
+This is an example Fastly Compute@Edge app using [Andrew Barba's Swift Compute Runtime SDK](https://github.com/AndrewBarba/swift-compute-runtime).
+
 ```swift
 import Compute
 
