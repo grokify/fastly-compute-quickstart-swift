@@ -30,8 +30,8 @@ struct ComputeApp {
 
 ## Prerequisites
 
-1. SwiftWasm toolchain
-1. Fastly CLI
+1. [SwiftWasm toolchain](https://book.swiftwasm.org/getting-started/setup.html)
+1. [Fastly CLI](https://github.com/fastly/cli)
 
 ## Usage
 
