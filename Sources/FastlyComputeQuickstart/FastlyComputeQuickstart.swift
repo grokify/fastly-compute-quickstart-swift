@@ -1,9 +1,8 @@
 import Compute
 
 struct Response: Codable {
-    let foo: String
-    let hello: String
-    let ping: String
+    let version: Int
+    let message: String
 }
 
 @main
@@ -13,7 +12,14 @@ struct ComputeApp {
             let logger = try Logger(name: "QuickstartLog")
             switch (req.method, req.url.path) {
             case (.post, "/quickstart"):
-                let content = Response(foo: "bar", hello: "world", ping: "pong")
+                if let accept = req.headers.get("Accept") {
+                    if accept.caseInsensitiveCompare("text/plain") == .orderedSame {
+                        try logger.write("swift quickstart responded with 200")
+                        try await res.status(200).send("Hello, Swift World!")
+                        return
+                    }
+                }
+                let content = Response(version: 1, message: "Hello, Swift World!")
                 try logger.write("swift quickstart responded with 200")
                 try await res.status(200).send(content)
             default:
