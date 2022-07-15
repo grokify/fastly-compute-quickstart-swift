@@ -9,6 +9,12 @@ It's designed to demonistrate some simple functionality:
 1. Writing repsponse (JSON and text)
 1. Setting response status (200 vs. 404)
 
+See the [SDK Reference](https://compute-runtime.swift.cloud/documentation/compute/) for more info.
+
+## Synopsis
+
+The following is the code for this demo.
+
 ```swift
 import Compute
 
