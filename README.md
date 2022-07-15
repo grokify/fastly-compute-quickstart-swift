@@ -2,28 +2,41 @@
 
 This is an example Fastly Compute@Edge app using [Andrew Barba's Swift Compute Runtime SDK](https://github.com/AndrewBarba/swift-compute-runtime).
 
+It's designed to demonistrate some simple functionality:
+
+1. Routing
+1. Accessing request object (method, url, headers)
+1. Writing repsponse (JSON and text)
+1. Setting response status (200 vs. 404)
+
 ```swift
 import Compute
 
 struct Response: Codable {
-    let foo: String
-    let hello: String
-    let ping: String
+    let version: Int
+    let message: String
 }
 
 @main
 struct ComputeApp {
     static func main() async throws {
         try await onIncomingRequest { req, res in
-            let logger = try Logger(name: "quickstartLogger")
+            let logger = try Logger(name: "QuickstartLog")
             switch (req.method, req.url.path) {
             case (.post, "/quickstart"):
-                let content = Response(foo: "bar", hello: "world", ping: "pong")
+                if let accept = req.headers.get("Accept") {
+                    if accept.caseInsensitiveCompare("text/plain") == .orderedSame {
+                        try logger.write("swift quickstart responded with 200")
+                        try await res.status(200).send("Hello, Swift World!")
+                        return
+                    }
+                }
+                let content = Response(version: 1, message: "Hello, Swift World!")
+                try logger.write("swift quickstart responded with 200")
                 try await res.status(200).send(content)
-                try logger.write("responded with 200")
             default:
+                try logger.write("swift quickstart responded with 404")
                 try await res.status(404).send()
-                try logger.write("responded with 404")
             }
         }
     }
